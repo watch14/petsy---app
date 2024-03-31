@@ -1,11 +1,10 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import express from "express";
+import petRoute from "./routes/pet.route.js";
+import userRoute from "./routes/user.route.js";
 
-const Pet = require("./models/pet.models.js"); // pet model
-const User = require("./models/user.models.js"); // user model
-const petRoute = require("./routes/pet.route.js");
-const userRoute = require("./routes/user.route.js");
 
-const express = require("express");
+
 const app = express();
 
 // middleware

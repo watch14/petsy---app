@@ -1,9 +1,16 @@
-const Pet = require("../models/pet.models");
+import Pet from "../models/pet.models.js";
+import User from "../models/user.models.js";
+
 
 //add a new pet to the database
 const addPet = async (req, res) => {
   try {
     const pet = await Pet.create(req.body);
+    const user = await User.findOne({ _id: req.body.ownerId });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     res.status(200).json(pet);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -64,14 +71,7 @@ const deletePet = async (req, res) => {
   }
 };
 
-module.exports = {
-  addPet,
-  getPets,
-  getPet,
-  updatePet,
-  deletePet,
-};
-
+export { addPet, getPets, getPet, updatePet, deletePet };
 
 // /////////////////////////PET ROUTES/////////////////////////
 // /////////////////////////PET ROUTES/////////////////////////

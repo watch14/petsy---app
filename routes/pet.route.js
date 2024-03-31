@@ -1,9 +1,7 @@
-const express = require("express");
-const Pet = require("../models/pet.models.js");
+import express from "express";
+import {getPets, getPet, addPet, updatePet, deletePet} from "../controller/pet.controller.js";
+
 const router = express.Router();
-const {getPets, getPet, addPet, updatePet, deletePet} = require("../controller/pet.controller.js");
-
-
 
 
 // add a new pet to the database
@@ -23,4 +21,4 @@ router.delete("/:id", deletePet);
 
 
 
-module.exports = router;
+export default router;

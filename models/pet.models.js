@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+import { Schema, model} from "mongoose";
 
 
 // Define the schema for the Pet model
-const PetSchema = mongoose.Schema(
+const PetSchema = new Schema(
     {
         petName: { 
             type: String,
@@ -69,11 +69,11 @@ const PetSchema = mongoose.Schema(
             default: "Free"
         },
 
-        // owner: {    // Owner of the pet
-        //     type: Schema.Types.ObjectId,
-        //     ref: 'User',
-        //     required: [true, "Please provide the owner of the pet"]
-        // }
+        ownerId: {    // Owner of the pet
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: [true, "Please provide the owner of the pet"]
+        }
     },
     {
         timestamps: true
@@ -81,5 +81,4 @@ const PetSchema = mongoose.Schema(
 );
 
 // Export the Pet model
-const Pet = mongoose.model("Pet", PetSchema);
-module.exports = Pet;
+export default model("Pet", PetSchema);
