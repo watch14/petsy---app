@@ -38,16 +38,17 @@ const getPet = async (req, res) => {
   }
 };
 
+
 //update pet by id
 const updatePet = async (req, res) => {
   try {
     const { id } = req.params;
-
+    
     const pet = await Pet.findByIdAndUpdate(id, req.body);
     if (!pet) {
       return res.status(404).json({ message: "Pet not found" });
     }
-
+    
     const updatedPet = await Pet.findById(id);
     res.status(200).json(updatedPet);
   } catch (error) {
@@ -59,83 +60,41 @@ const updatePet = async (req, res) => {
 const deletePet = async (req, res) => {
   try {
     const { id } = req.params;
-
+    
     const pet = await Pet.findByIdAndDelete(id);
     if (!pet) {
       return res.status(404).json({ message: "Pet not found" });
     }
-
+    
     res.status(200).json({ message: "Pet deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-export { addPet, getPets, getPet, updatePet, deletePet };
 
-// /////////////////////////PET ROUTES/////////////////////////
-// /////////////////////////PET ROUTES/////////////////////////
+//find pets by filter
+const findPetByFilter = async (req, res) => {
+  try {
+    // Extract filter parameters from request query
+    const { petType, breed, gender, size, location } = req.query;
 
-// ///////add a new pet to the database
-// app.post("/api/pets", async (req, res) => {
-//     try {
-//       const pet = await Pet.create(req.body);
-//       res.status(200).json(pet);
-//     } catch (error) {
-//       res.status(500).json({ message: error.message });
-//     }
-//   });
+    // Construct query object based on provided filters
+    const query = {};
+    if (petType) query.petType = petType;
+    if (breed) query.breed = breed;
+    if (gender) query.gender = gender;
+    if (size) query.size = size;
+    if (location) query.location = location;
 
-//   ///////view all pets in the database
-//   app.get("/api/pets", async (req, res) => {
-//     try {
-//       const pets = await Pet.find({});
-//       res.status(200).json(pets);
-//     } catch (error) {
-//       res.status(500).json({ message: error.message });
-//     }
-//   });
+    // Find pets that match the provided filters
+    const pets = await Pet.find(query);
 
-//   ///////get pet by id
-//   app.get("/api/pets/:id", async (req, res) => {
-//     try {
-//       const { id } = req.params;
-//       const pet = await Pet.findById(id);
-//       res.status(200).json(pet);
-//     } catch (error) {
-//       res.status(500).json({ message: error.message });
-//     }
-//   });
+    res.status(200).json(pets);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-//   ///////update pet by id
-//   app.put("/api/pets/:id", async (req, res) => {
-//     try {
-//       const { id } = req.params;
+export { addPet, getPets, getPet, updatePet, deletePet, findPetByFilter};
 
-//       const pet = await Pet.findByIdAndUpdate(id, req.body);
-//       if (!pet) {
-//         return res.status(404).json({ message: "Pet not found" });
-//       }
-
-//       const updatedPet = await Pet.findById(id);
-//       res.status(200).json(updatedPet);
-//     } catch (error) {
-//       res.status(500).json({ message: error.message });
-//     }
-//   });
-
-//   ///////delete pet by id
-//   app.delete("/api/pets/:id", async (req, res) => {
-//     try {
-//       const { id } = req.params;
-
-//       const pet = await Pet.findByIdAndDelete(id);
-//       if (!pet) {
-//         return res.status(404).json({ message: "Pet not found" });
-//       }
-
-//       res.status(200).json({ message: "Pet deleted successfully" });
-//     } catch (error) {
-//       res.status(500).json({ message: error.message });
-//     }
-//   });
