@@ -47,8 +47,7 @@ const PetSchema = new Schema(
 
         size: {   
             type: String,
-            required: false,
-            default: "Unknown"
+            required: [true, "Please provide the size of your pet"]
         },
 
         healthStatus: {     
@@ -72,7 +71,7 @@ const PetSchema = new Schema(
         ownerId: {    // Owner of the pet
             type: Schema.Types.ObjectId,
             ref: 'User',
-            required: [true, "Please provide the owner of the pet"]
+            required: true
         }
     },
     {
